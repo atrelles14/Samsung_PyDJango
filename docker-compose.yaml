@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 
+      MYSQL_DATABASE: samsung
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_NAME: samsung
+      DB_USER: root
+      DB_PASS: 
+
+volumes:
+  db_data:
